@@ -9,13 +9,13 @@ jobs:
     - name: install aqtinstall
       shell: cmd
       run: |
-        set PATH=C:\Miniconda\Scripts;C:\Miniconda;%PATH%
+        set PATH=C:\Miniconda;C:\Miniconda\Scripts;%PATH%
         where aqt || pip install aqtinstall
-    - name: flavour qwt6.2.0 qt6.3.1 mingw11.2.0 x86_64
+    - name: flavour qwt6.2.0 qt6.2.4 mingw11.2.0 x86_64
       shell: cmd
       run: |
-        set PATH=%CD%\6.3.1\mingw_64\bin;%CD%\Tools\mingw1120_64\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\7-Zip;C:\Miniconda\Scripts;C:\Miniconda;%PATH%
-        if not exist 6.3.1\mingw_64\bin\qmake.exe aqt install-qt windows desktop 6.3.1 win64_mingw
+        set PATH=%CD%\6.2.4\mingw_64\bin;%CD%\Tools\mingw1120_64\bin;C:\Miniconda;C:\Miniconda\Scripts;C:\Program Files\7-Zip;C:\Program Files\Git\mingw64\bin;%PATH%
+        if not exist 6.2.4\mingw_64\bin\qmake.exe aqt install-qt windows desktop 6.2.4 win64_mingw
         if not exist Tools\mingw1120_64\bin\gcc.exe aqt install-tool windows desktop tools_mingw90 qt.tools.win64_mingw900
         if not exist "qwt-6.2.0.zip" curl -L -o qwt-6.2.0.zip "https://altushost-swe.dl.sourceforge.net/project/qwt/qwt/6.2.0/qwt-6.2.0.zip"
         if exist qwt-6.2.0 rmdir /q /s qwt-6.2.0
@@ -25,12 +25,12 @@ jobs:
         qmake
         mingw32-make install
         popd
-        7z a "qwt6.2.0-qt6.3.1-mingw11.2.0-x86_64.zip" "C:\Qwt-6.2.0"
-    - name: flavour qwt6.2.0 qt6.3.1 msvc2019 x86_64
+        7z a "qwt6.2.0-qt6.2.4-mingw11.2.0-x86_64.zip" "C:\Qwt-6.2.0"
+    - name: flavour qwt6.2.0 qt6.2.4 msvc2019 x86_64
       shell: cmd
       run: |
-        set PATH=%CD%\6.3.1\msvc2019_64\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\7-Zip;C:\Miniconda\Scripts;C:\Miniconda;%PATH%
-        if not exist 6.3.1\msvc2019_64\bin\qmake.exe aqt install-qt windows desktop 6.3.1 win64_msvc2019_64
+        set PATH=%CD%\6.2.4\msvc2019_64\bin;C:\Miniconda;C:\Miniconda\Scripts;C:\Program Files\7-Zip;C:\Program Files\Git\mingw64\bin;%PATH%
+        if not exist 6.2.4\msvc2019_64\bin\qmake.exe aqt install-qt windows desktop 6.2.4 win64_msvc2019_64
         if not exist "qwt-6.2.0.zip" curl -L -o qwt-6.2.0.zip "https://altushost-swe.dl.sourceforge.net/project/qwt/qwt/6.2.0/qwt-6.2.0.zip"
         if exist qwt-6.2.0 rmdir /q /s qwt-6.2.0
         if exist C:\Qwt-6.2.0 rmdir /q /s C:\Qwt-6.2.0
@@ -41,11 +41,11 @@ jobs:
         qmake
         nmake install
         popd
-        7z a "qwt6.2.0-qt6.3.1-msvc2019-x86_64.zip" "C:\Qwt-6.2.0"
+        7z a "qwt6.2.0-qt6.2.4-msvc2019-x86_64.zip" "C:\Qwt-6.2.0"
     - uses: ncipollo/release-action@v1
       if: startsWith(github.ref, 'refs/tags/')
       with:
         artifacts: |
-          qwt6.2.0-qt6.3.1-mingw11.2.0-x86_64.zip
-          qwt6.2.0-qt6.3.1-msvc2019-x86_64.zip
+          qwt6.2.0-qt6.2.4-mingw11.2.0-x86_64.zip
+          qwt6.2.0-qt6.2.4-msvc2019-x86_64.zip
         token: ${{ secrets.GITHUB_TOKEN }}
