@@ -35,18 +35,18 @@ def build_step(qwt, qt, compiler, arch, local):
     c.aqt_install_mingw()
     url = qwt_url(qwt)
     zip_name, qwt_dir_name = c.download(url)
+    local_path = qwt_local_path(qwt)
     c.rmdir(qwt_dir_name)
+    c.rmdir(local_path)
     c.extract(zip_name)
     c.call_vcvars()
     c.pushd(qwt_dir_name)
     c.qmake()
     c.make_install()
     c.popd()
-    local_path = qwt_local_path(qwt)
     flavour_base = qwt_flavour_name(qwt, qt, compiler, arch)
     zip_name = flavour_base + ".zip"
     c.archive(zip_name, local_path)
-    c.rmdir(local_path)
     return c.pack()
 
 def install_aqt_step(local):

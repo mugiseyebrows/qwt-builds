@@ -1,5 +1,7 @@
 import os
 import yaml
+from packaging import version
+import re
 
 ON_PUSH = 1
 ON_TAG = 2
@@ -343,10 +345,22 @@ class Commander:
             self._cmds.append("where {} || exit /b".format(app))
 
     def add_python_path(self):
+        def pp(*paths):
+            res = []
+            for path in paths:
+                res.append(path)
+                res.append(os.path.join(path, "Scripts"))
+            return res
         if self._local:
-            python_path = ["C:\\Miniconda3","C:\\Miniconda3\\Scripts"]
+            python_path = pp(
+                "C:\\Miniconda3",
+                "%HOMEPATH%\\Miniconda3",
+                "%LOCALAPPDATA%\\Programs\\Python\\Python39",
+                "%LOCALAPPDATA%\\Programs\\Python\\Python310",
+            )
         else:
-            python_path = ["C:\\Miniconda","C:\\Miniconda\\Scripts"]
+            python_path = pp("C:\\Miniconda")
+
         for path in python_path:
             self._path2.add(path)
 
@@ -473,7 +487,8 @@ def filter_specs(specs):
             if is_msvc2019_optimal(qt, compiler, arch):
                 res.append((qt, compiler, arch))
             else:
-                print("msvc2019 not optimal")
+                #print("msvc2019 not optimal")
+                pass
         else:
             res.append((qt, compiler, arch))
     return res
